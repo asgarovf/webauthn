@@ -70,6 +70,9 @@ function getAlgoName(num :NumAlgo) :NamedAlgo {
  * @param {'discouraged'|'preferred'|'required'} [options.discoverable] A "discoverable" credential can be selected using `authenticate(...)` without providing credential IDs.
  *              Instead, a native pop-up will appear for user selection.
  *              This may have an impact on the "passkeys" user experience and syncing behavior of the key.
+ * @param {string} [options.userHandle] Representing a unique ID for the user account. This value has a maximum length of 64 bytes, and is not intended to be displayed to the user.
+ *              userHandle can be returned in some future authentication ceremonies, and is used to overwrite existing discoverable credentials that have the same rp.id and user.id on the
+ *              same authenticator.
  */
 export async function register(username :string, challenge :string, options? :RegisterOptions) :Promise<RegistrationEncoded> {
     options = options ?? {}

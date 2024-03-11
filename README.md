@@ -267,9 +267,12 @@ Example response:
   "credentialId": "3924HhJdJMy_svnUowT8eoXrOOO6NLP8SK85q2RPxdU",
   "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MFAAAAAQ==",
   "clientData": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNTY1MzViMTMtNWQ5My00MTk0LWEyODItZjIzNGMxYzI0NTAwIiwib3JpZ2luIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiY3Jvc3NPcmlnaW4iOmZhbHNlLCJvdGhlcl9rZXlzX2Nhbl9iZV9hZGRlZF9oZXJlIjoiZG8gbm90IGNvbXBhcmUgY2xpZW50RGF0YUpTT04gYWdhaW5zdCBhIHRlbXBsYXRlLiBTZWUgaHR0cHM6Ly9nb28uZ2wveWFiUGV4In0=",
-  "signature": "MEUCIAqtFVRrn7q9HvJCAsOhE3oKJ-Hb4ISfjABu4lH70MKSAiEA666slmop_oCbmNZdc-QemTv2Rq4g_D7UvIhWT_vVp8M="
+  "signature": "MEUCIAqtFVRrn7q9HvJCAsOhE3oKJ-Hb4ISfjABu4lH70MKSAiEA666slmop_oCbmNZdc-QemTv2Rq4g_D7UvIhWT_vVp8M=",
+  "userHandle": null
 }
 ```
+
+> **NOTE:** It is **required** for `discoverable` credentials to return `userHandle` value, which is provided as `user.id` in registration. It can be used to relate the assertion to the user on the server. 
 
 Parameters:
 
@@ -396,7 +399,8 @@ Registration options
 
 - `discoverable`: (`'discouraged'`, `'preferred'` or `'required'`) If the credential is "discoverable", it can be selected using `authenticate` without providing credential IDs. In that case, a native pop-up will appear for user selection. This may have an impact on the "passkeys" user experience and syncing behavior of the key. *(Default: 'preferred')*
 - `attestation`: If enabled, the device attestation and clientData will be provided as base64 encoded binary data. Note that this may impact the authenticator information available or the UX depending on the platform. *(Default: false)*
-- `userHandle`: The `userHandle` can be used to re-register credentials for an existing user, thus overriding the current the key pair and username for that `userHandle`. *The default here is based on a hash of the `username`, and thus has some security implications as described in [issue](https://github.com/passwordless-id/webauthn/issues/29). For optimal security and privacy, it is recommended to set the `userHandle` to a random 64 bytes value.*
+- `userHandle`: The `userHandle` is representing a unique ID for the user account. This value has a maximum length of 64 bytes, and is not intended to be displayed to the user. It can be returned in some future authentication ceremonies, and is used to overwrite existing discoverable credentials that have the same `rp.id` and `user.id` on the
+same authenticator. *The default here is based on a hash of the `username`, and thus has some security implications as described in [issue](https://github.com/passwordless-id/webauthn/issues/29). For optimal security and privacy, it is recommended to set the `userHandle` to a random 64 bytes value.* [Read the spec.](https://w3c.github.io/webauthn/#dom-authenticatorassertionresponse-userhandle)
 
 
 Authentication options
